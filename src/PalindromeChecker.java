@@ -1,61 +1,37 @@
 import java.util.Scanner;
 
-class Node {
-    char data;
-    Node next;
-    Node(char data) { this.data = data; }
-}
-
 public class PalindromeChecker {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+
+        // Console output matches the provided snapshots (radar, noon, civic, etc.)
         System.out.print("Input : ");
         String input = scanner.nextLine();
 
-        Node head = buildList(input);
-        boolean result = isPalindrome(head);
+        boolean result = isPalindromeRecursive(input);
 
         System.out.println("Is Palindrome? : " + result);
+
         scanner.close();
     }
 
-    private static Node buildList(String str) {
-        if (str.isEmpty()) return null;
-        Node head = new Node(str.charAt(0));
-        Node current = head;
-        for (int i = 1; i < str.length(); i++) {
-            current.next = new Node(str.charAt(i));
-            current = current.next;
-        }
-        return head;
-    }
-
-    public static boolean isPalindrome(Node head) {
-        if (head == null || head.next == null) return true;
-
-        // Step 1: Find middle using Fast & Slow pointers
-        Node slow = head, fast = head;
-        while (fast != null && fast.next != null) {
-            slow = slow.next;
-            fast = fast.next.next;
+    /**
+     * Recursive method to check if a string is a palindrome.
+     * Uses the Call Stack as the primary memory structure.
+     */
+    public static boolean isPalindromeRecursive(String str) {
+        // Base Condition: Strings of length 0 or 1 are palindromes
+        if (str == null || str.length() <= 1) {
+            return true;
         }
 
-        // Step 2: Reverse the second half
-        Node prev = null, current = slow, nextNode;
-        while (current != null) {
-            nextNode = current.next;
-            current.next = prev;
-            prev = current;
-            current = nextNode;
+        // Compare start and end characters
+        if (str.charAt(0) == str.charAt(str.length() - 1)) {
+            // Recursive call with a smaller subproblem (the middle substring)
+            return isPalindromeRecursive(str.substring(1, str.length() - 1));
         }
 
-        // Step 3: Compare halves
-        Node left = head, right = prev;
-        while (right != null) {
-            if (left.data != right.data) return false;
-            left = left.next;
-            right = right.next;
-        }
-        return true;
+        // If characters don't match, it's not a palindrome
+        return false;
     }
 }
