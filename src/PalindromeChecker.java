@@ -1,37 +1,45 @@
 import java.util.Scanner;
 
+/**
+ * UC10: Case-Insensitive & Space-Ignored Palindrome Checker
+ * This application validates if a string is a palindrome by normalizing it first.
+ */
 public class PalindromeChecker {
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // Console output matches the provided snapshots (radar, noon, civic, etc.)
+        // 1. Get Input
         System.out.print("Input : ");
         String input = scanner.nextLine();
 
-        boolean result = isPalindromeRecursive(input);
+        // 2. Normalize string (String preprocessing)
+        // [^a-zA-Z0-9] is a Regular Expression that matches everything except letters and numbers
+        String normalized = input.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
 
-        System.out.println("Is Palindrome? : " + result);
+        // 3. Apply logic (Two-pointer approach)
+        boolean isPalindrome = checkPalindrome(normalized);
+
+        // 4. Output Result
+        System.out.println("Is Palindrome? : " + isPalindrome);
 
         scanner.close();
     }
 
     /**
-     * Recursive method to check if a string is a palindrome.
-     * Uses the Call Stack as the primary memory structure.
+     * Helper method to check if a pre-processed string reads the same forward and backward.
      */
-    public static boolean isPalindromeRecursive(String str) {
-        // Base Condition: Strings of length 0 or 1 are palindromes
-        if (str == null || str.length() <= 1) {
-            return true;
-        }
+    private static boolean checkPalindrome(String str) {
+        int left = 0;
+        int right = str.length() - 1;
 
-        // Compare start and end characters
-        if (str.charAt(0) == str.charAt(str.length() - 1)) {
-            // Recursive call with a smaller subproblem (the middle substring)
-            return isPalindromeRecursive(str.substring(1, str.length() - 1));
+        while (left < right) {
+            if (str.charAt(left) != str.charAt(right)) {
+                return false;
+            }
+            left++;
+            right--;
         }
-
-        // If characters don't match, it's not a palindrome
-        return false;
+        return true;
     }
 }
