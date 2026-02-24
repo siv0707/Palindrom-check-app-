@@ -5,13 +5,14 @@ public class PalindromeChecker {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // Input handling based on provided snapshots
+        // Console input as per instructions
         System.out.print("Input : ");
         String input = scanner.nextLine();
 
+        // Data Structure: Stack used for validation
         boolean result = isPalindromeUsingStack(input);
 
-        // Output formatting to match your console goal
+        // Output result format based on your snapshots
         System.out.println("Is Palindrome? : " + result);
 
         scanner.close();
@@ -22,22 +23,22 @@ public class PalindromeChecker {
             return false;
         }
 
-        // 1. Initialize the Stack
-        Stack<Character> stack = new Stack<>();
+        // Initialize Stack linear data structure
+        Stack<Character> charStack = new Stack<>();
 
-        // 2. Push characters into stack
+        // Push Operation: Inserting characters into the stack
         for (int i = 0; i < str.length(); i++) {
-            stack.push(str.charAt(i));
+            charStack.push(str.charAt(i));
         }
 
-        // 3. Pop and compare with the original characters
+        // Pop Operation: Reversing order for comparison
         for (int i = 0; i < str.length(); i++) {
-            char poppedChar = stack.pop();
+            char poppedChar = charStack.pop();
             if (str.charAt(i) != poppedChar) {
                 return false; // Not a palindrome
             }
         }
 
-        return true; // Match found
+        return true;
     }
 }
