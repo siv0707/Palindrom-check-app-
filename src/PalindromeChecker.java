@@ -1,44 +1,33 @@
-import java.util.Stack;
+import java.util.Deque;
+import java.util.ArrayDeque;
 import java.util.Scanner;
 
-public class PalindromeChecker {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+public class PalindromeChecker { // START OF CLASS
 
-        // Console input as per instructions
+    public static void main(String[] args) { // START OF METHOD
+        Scanner scanner = new Scanner(System.in);
         System.out.print("Input : ");
         String input = scanner.nextLine();
 
-        // Data Structure: Stack used for validation
-        boolean result = isPalindromeUsingStack(input);
-
-        // Output result format based on your snapshots
+        // This is inside a method, so it is allowed
+        boolean result = isPalindromeUsingDeque(input);
         System.out.println("Is Palindrome? : " + result);
-
         scanner.close();
-    }
+    } // END OF METHOD
 
-    public static boolean isPalindromeUsingStack(String str) {
-        if (str == null || str.isEmpty()) {
-            return false;
+    public static boolean isPalindromeUsingDeque(String str) { // START OF METHOD
+        Deque<Character> deque = new ArrayDeque<>(); // Correct
+
+        for (char ch : str.toCharArray()) {
+            deque.addLast(ch); // Correct: inside a loop inside a method
         }
 
-        // Initialize Stack linear data structure
-        Stack<Character> charStack = new Stack<>();
-
-        // Push Operation: Inserting characters into the stack
-        for (int i = 0; i < str.length(); i++) {
-            charStack.push(str.charAt(i));
-        }
-
-        // Pop Operation: Reversing order for comparison
-        for (int i = 0; i < str.length(); i++) {
-            char poppedChar = charStack.pop();
-            if (str.charAt(i) != poppedChar) {
-                return false; // Not a palindrome
+        while (deque.size() > 1) {
+            if (deque.removeFirst() != deque.removeLast()) {
+                return false;
             }
         }
-
         return true;
-    }
-}
+    } // END OF METHOD
+
+} // END OF CLASS
