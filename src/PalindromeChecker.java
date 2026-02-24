@@ -1,45 +1,55 @@
 import java.util.Scanner;
+import java.util.Stack;
 
 /**
- * UC10: Case-Insensitive & Space-Ignored Palindrome Checker
- * This application validates if a string is a palindrome by normalizing it first.
+ * PalindromeService handles the core logic for palindrome validation.
+ * It uses a Stack data structure as per UC11 requirements.
  */
-public class PalindromeChecker {
+class PalindromeService {
 
+    /**
+     * UC11: Exposes checkPalindrome() method to validate input.
+     * Uses a Stack to strengthen data structure concepts.
+     */
+    public boolean checkPalindrome(String input) {
+        if (input == null) return false;
+
+        // Normalization (Applying logic from UC10 for consistency)
+        String cleaned = input.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+
+        Stack<Character> stack = new Stack<>();
+
+        // Push all characters onto the stack
+        for (char c : cleaned.toCharArray()) {
+            stack.push(c);
+        }
+
+        // Pop from stack and compare with original string
+        for (char c : cleaned.toCharArray()) {
+            if (c != stack.pop()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
+
+public class PalindromeChecker {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // 1. Get Input
+        // Instantiate the Service Object (Encapsulation)
+        PalindromeService service = new PalindromeService();
+
         System.out.print("Input : ");
         String input = scanner.nextLine();
 
-        // 2. Normalize string (String preprocessing)
-        // [^a-zA-Z0-9] is a Regular Expression that matches everything except letters and numbers
-        String normalized = input.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+        // Call the exposed method
+        boolean result = service.checkPalindrome(input);
 
-        // 3. Apply logic (Two-pointer approach)
-        boolean isPalindrome = checkPalindrome(normalized);
-
-        // 4. Output Result
-        System.out.println("Is Palindrome? : " + isPalindrome);
+        System.out.println("Is Palindrome? : " + result);
 
         scanner.close();
-    }
-
-    /**
-     * Helper method to check if a pre-processed string reads the same forward and backward.
-     */
-    private static boolean checkPalindrome(String str) {
-        int left = 0;
-        int right = str.length() - 1;
-
-        while (left < right) {
-            if (str.charAt(left) != str.charAt(right)) {
-                return false;
-            }
-            left++;
-            right--;
-        }
-        return true;
     }
 }
