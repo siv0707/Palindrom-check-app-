@@ -1,22 +1,34 @@
 public class PalindromeChecker {
 
+
         public static void main(String[] args) {
+            String input = "radar"; // As seen in your screenshot
 
-            // Hardcoded input string
-            String input = "madam";
+            boolean result = isPalindrome(input);
 
-            // Reverse the string using the loop from last to first
-            String reversed = "";
-            for (int i = input.length() - 1; i >= 0; i--) {
-                reversed = reversed + input.charAt(i);
+            System.out.println("Input : " + input);
+            System.out.println("Is Palindrome? : " + result);
+        }
+
+        public static boolean isPalindrome(String str) {
+            if (str == null) return false;
+
+            // Step 1: Convert string to char array
+            char[] charArray = str.toCharArray();
+
+            // Step 2: Initialize two pointers
+            int left = 0;
+            int right = charArray.length - 1;
+
+            // Step 3: Compare characters moving inward
+            while (left < right) {
+                if (charArray[left] != charArray[right]) {
+                    return false; // Mismatch found
+                }
+                left++;
+                right--;
             }
 
-            // Compare original and reversed strings
-            boolean isPalindrome = input.equals(reversed);
-
-            // Display results
-            System.out.println("Input text: " + input);
-            System.out.println("Reversed text: " + reversed);
-            System.out.println("Is it a Palindrome? : " + isPalindrome);
+            return true; // All characters matched
         }
-    }
+}
